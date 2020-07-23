@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -16,9 +17,9 @@ import com.soccer.api.livesoccer.model.ApiResult;
 
 
 @RestController
+@RequestMapping("/soccerApp")
 public class HomeController {
 
-	String APIKEY = "8676d96a230c889cf1c3b5bd70053d36a9a2489877adfb4fea80def419a82c2c";
 	
 	@GetMapping("/home")
 	public List<ApiResult> home()  {
