@@ -6,45 +6,47 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.soccer.api.livesoccer.model.ApiResult;
+import com.soccer.api.livesoccer.service.SoccerApiService;
+import com.soccer.api.livesoccer.utility.TimeComparison;
 
 
 
 @RestController
 @RequestMapping("/soccerApp")
-public class HomeController {
+@CrossOrigin("*")
+public class HighlightsController {
 
+	@Autowired
+	SoccerApiService soccerApiService;
 	
-	@GetMapping("/home")
-	public List<ApiResult> home()  {
+	@GetMapping("/highlights")
+	public ResponseEntity<?> getVideoHighlights()  {
 		
-		RestTemplate restTemplate = new RestTemplate();
-		ApiResult[] responseObject = restTemplate.getForObject("https://www.scorebat.com/video-api/v1/",ApiResult[].class);
-				System.out.println(responseObject);
+		ApiResult[] apiResultArray = soccerApiService.getVideoResult();
 		List<ApiResult> apiResultList = new ArrayList<ApiResult>();
-		for(ApiResult apiResult: responseObject) {
+		TimeComparison timeComparison = new TimeComparison();
+		Date date = new Date();
+		
+		for(ApiResult apiResult: apiResultArray) {
 			System.out.println(apiResult.getSide1().getName()+" vs "+ apiResult.getSide2().getName());
-			if(compareEightHour(apiResult.getDate())) {
+			//if(timeComparison.lessEightHour(apiResult.getDate(),date)) {
 				apiResultList.add(apiResult);
-			}
+			//}
 		}
 				
 				
-		return apiResultList;
+		return ResponseEntity.ok().body(apiResultList);
+		
 	}
 	
-	public boolean compareEightHour(Date d) {
-		Date date = new Date();
-		Long diff = (date.getTime() - d.getTime())/(1000 * 60 * 60);
-		if(diff<=8)
-			return true;
-		else
-			return false;
-	}
+
 }
