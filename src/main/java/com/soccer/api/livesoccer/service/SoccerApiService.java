@@ -11,16 +11,19 @@ import org.springframework.web.client.RestTemplate;
 
 import com.soccer.api.livesoccer.model.ApiResult;
 import com.soccer.api.livesoccer.model.LiveScore;
+import com.soccer.api.livesoccer.model.Standings;
 
 @Service
 public class SoccerApiService {
 	
-	String liveLink = "https://www.scorebat.com/api/feed";
-	String infoLink = "https://www.scorebat.com/api/assets/";
+	String liveLink 	 = "https://www.scorebat.com/api/feed";
+	String infoLink		 = "https://www.scorebat.com/api/assets/";
+	String standingsLink = "https://www.scorebat.com/api/competition/3/";
+	String videoLink	 = "https://www.scorebat.com/video-api/v1/";
 	
 	public ApiResult[] getVideoResult() {
 		RestTemplate restTemplate = new RestTemplate();
-		ApiResult[] responseObject = restTemplate.getForObject("https://www.scorebat.com/video-api/v1/",ApiResult[].class);
+		ApiResult[] responseObject = restTemplate.getForObject(videoLink,ApiResult[].class);
 		return responseObject;
 	}
 	
@@ -49,5 +52,18 @@ public class SoccerApiService {
 		return liveScoreList;
 	}
 	
+	
+	public List<Standings> getStandings(String leagueName){
+		RestTemplate restTemplate = new RestTemplate();
+		HashMap<String,Object> obj = (HashMap<String, Object>) restTemplate.getForEntity(standingsLink+leagueName, Object.class).getBody();
+		HashMap<String,Object> responseMap =  (HashMap<String, Object>) obj.get("response");
+		HashMap<String,?> standingsMap =  (HashMap<String, ?>) responseMap.get("standings");
+		List<Standings> standingsList = new ArrayList<Standings>();
+		for(Map.Entry entry: standingsMap.entrySet()) {
+			if(entry.getKey().equals("rows"))
+				standingsList = (List<Standings>) entry.getValue();
+		}
+		return standingsList;
+	}
 
 }

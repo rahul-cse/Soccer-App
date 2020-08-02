@@ -37,7 +37,11 @@ public class HighlightsController {
 		Date date = new Date();
 		
 		for(ApiResult apiResult: apiResultArray) {
-			System.out.println(apiResult.getSide1().getName()+" vs "+ apiResult.getSide2().getName());
+			
+			String[] embed = apiResult.getEmbed().split("<iframe src='");
+			String[] highlightsLink = embed[1].split(" frameborder");
+			apiResult.setEmbed(highlightsLink[0]);
+			
 			//if(timeComparison.lessEightHour(apiResult.getDate(),date)) {
 				apiResultList.add(apiResult);
 			//}
