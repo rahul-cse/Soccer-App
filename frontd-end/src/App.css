@@ -1,0 +1,63 @@
+.App {
+  text-align: center;
+}
+
+/* .App-logo {
+  height: 40vmin;
+  pointer-events: none;
+} */
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #d9dce2;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+#firstLink{
+  margin-left:40vw;
+}
+
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  font-size: smaller;
+  z-index: 1;
+  background-color: #212529;
+  margin-top: 0.5%;
+}
+
+a.nav-item.nav-link.std:hover .dropdown-content{
+  display: block;
+}
+.leagueStd{
+  display: block;
+  text-decoration: none;
+  color:rgba(255,255,255,.5);
+  border-bottom: 1px solid rgba(255,255,255,.5);
+}
